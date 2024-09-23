@@ -12,8 +12,6 @@ Sistema OS é um sistema desktop(Windows, Linux ou MAC) para gestão de ordem de
 
 #
 
-#
-
 *Tecnologias que são abordadas neste tutorial:*
 
 - Criação de banco de dados e tabelas no MySQL
