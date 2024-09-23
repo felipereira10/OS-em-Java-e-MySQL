@@ -5,6 +5,7 @@ Sistema OS é um sistema desktop(Windows, Linux ou MAC) para gestão de ordem de
 #
 
 *Pré requisitos*
+
 1- Ter o Java versão 8 instalado.
 
 2- Ter um banco de dados local baseado no MySQL 8.
