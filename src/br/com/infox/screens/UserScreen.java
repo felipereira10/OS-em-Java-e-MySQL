@@ -401,7 +401,6 @@ public class UserScreen extends javax.swing.JInternalFrame {
     private void btnUsuDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUsuDeleteActionPerformed
         // Chamando o método remover
         remover();
-        
     }//GEN-LAST:event_btnUsuDeleteActionPerformed
 
 
