@@ -14,6 +14,7 @@ package br.com.infox.screens;
 import br.com.infox.dal.ModuloConexao;
 import java.sql.*;
 import javax.swing.JOptionPane;
+import static javax.swing.text.html.HTML.Tag.S;
 
 public class UserScreen extends javax.swing.JInternalFrame {
 
@@ -73,7 +74,7 @@ public class UserScreen extends javax.swing.JInternalFrame {
             pst.setString(5, txtUsuSenha.getText());
             pst.setString(6, cboUsuPerfil.getSelectedItem().toString());
             // Validação dos campos obrigatórios
-            if ((txtUsuId.getText().isEmpty()) || (txtUsuNome.getText().isEmpty())|| (txtUsuLogin.getText().isEmpty())|| (txtUsuSenha.getText().isEmpty())) {
+            if ((txtUsuId.getText().isEmpty()) || (txtUsuNome.getText().isEmpty()) || (txtUsuLogin.getText().isEmpty()) || (txtUsuSenha.getText().isEmpty())) {
                 JOptionPane.showMessageDialog(null, "Fill in all Required Fields!");
             } else {
 
@@ -92,7 +93,68 @@ public class UserScreen extends javax.swing.JInternalFrame {
                 }
             }
         } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Already registered user");
+        }
+    }
+
+// UPDATE
+    private void alterar() {
+        String sql = "update tbusuarios set usuario=?, fone=?, login=?, senha=?, perfil=? where iduser=?";
+        try {
+            pst = conexao.prepareStatement(sql);
+            pst.setString(1, txtUsuNome.getText());
+            pst.setString(2, txtUsuFone.getText());
+            pst.setString(3, txtUsuLogin.getText());
+            pst.setString(4, txtUsuSenha.getText());
+            pst.setString(5, cboUsuPerfil.getSelectedItem().toString());
+            pst.setString(6, txtUsuId.getText());
+
+            if ((txtUsuId.getText().isEmpty()) || (txtUsuNome.getText().isEmpty()) || (txtUsuLogin.getText().isEmpty()) || (txtUsuSenha.getText().isEmpty())) {
+                JOptionPane.showMessageDialog(null, "Fill in all Required Fields!");
+            } else {
+
+                // A linha abaixo, atualiza a tabela usuários com os dados do formulário
+                // A estrutura é usada para confirmar a alteração dos dados na tabela
+                int adicionado = pst.executeUpdate();
+                // A linha abaixo, serve de apoio ao entendimento da lógica
+                System.out.println(adicionado);
+                if (adicionado > 0) {
+                    JOptionPane.showMessageDialog(null, "User data changed successfully!");
+                    txtUsuId.setText(null);
+                    txtUsuNome.setText(null);
+                    txtUsuFone.setText(null);
+                    txtUsuLogin.setText(null);
+                    txtUsuSenha.setText(null);
+                }
+            }
+
+        } catch (Exception e) {
             JOptionPane.showMessageDialog(null, e);
+        }
+    }
+
+// DELETE
+    private void remover() {
+        // A estrutura abaixo, confirma a remoção do usuário
+        int confirma = JOptionPane.showConfirmDialog(null, "Are you sure you want to remove this user?", "Attention!", JOptionPane.YES_NO_OPTION);
+        if (confirma == JOptionPane.YES_OPTION) {
+            String sql = "delete from tbusuarios where iduser=?";
+            try {
+                pst = conexao.prepareStatement(sql);
+                pst.setString(1, txtUsuId.getText());
+                int apagado = pst.executeUpdate();
+                if (apagado > 0) {
+                    JOptionPane.showMessageDialog(null, "User removed successfully");
+                    txtUsuId.setText(null);
+                    txtUsuNome.setText(null);
+                    txtUsuFone.setText(null);
+                    txtUsuLogin.setText(null);
+                    txtUsuSenha.setText(null);
+                }
+
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(null, e);
+            }
         }
     }
 
@@ -198,11 +260,21 @@ public class UserScreen extends javax.swing.JInternalFrame {
         btnUsuUpdate.setToolTipText("Update");
         btnUsuUpdate.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnUsuUpdate.setPreferredSize(new java.awt.Dimension(80, 80));
+        btnUsuUpdate.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnUsuUpdateActionPerformed(evt);
+            }
+        });
 
         btnUsuDelete.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/infox/icons/delete.png"))); // NOI18N
         btnUsuDelete.setToolTipText("Delete");
         btnUsuDelete.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnUsuDelete.setPreferredSize(new java.awt.Dimension(80, 80));
+        btnUsuDelete.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnUsuDeleteActionPerformed(evt);
+            }
+        });
 
         jLabel7.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabel7.setText("* Required Fields");
@@ -320,6 +392,16 @@ public class UserScreen extends javax.swing.JInternalFrame {
     private void txtUsuFoneActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtUsuFoneActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtUsuFoneActionPerformed
+
+    private void btnUsuUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUsuUpdateActionPerformed
+        // Chamando o método alterar
+        alterar();
+    }//GEN-LAST:event_btnUsuUpdateActionPerformed
+
+    private void btnUsuDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUsuDeleteActionPerformed
+        // Chamando o método remover
+        remover();
+    }//GEN-LAST:event_btnUsuDeleteActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
