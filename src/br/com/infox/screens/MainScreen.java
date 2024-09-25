@@ -188,7 +188,10 @@ public class MainScreen extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void menCadCliActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menCadCliActionPerformed
-        // TODO add your handling code here:
+        // Chamando a ClientScreen
+        ClientScreen cliente = new ClientScreen();
+        cliente.setVisible(true);
+        desktop.add(cliente);
     }//GEN-LAST:event_menCadCliActionPerformed
 
     private void formWindowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowActivated
