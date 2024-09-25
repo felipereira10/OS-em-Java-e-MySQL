@@ -403,6 +403,7 @@ public class UserScreen extends javax.swing.JInternalFrame {
         remover();
     }//GEN-LAST:event_btnUsuDeleteActionPerformed
 
+    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnUsuCreate;
