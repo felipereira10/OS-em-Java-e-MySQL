@@ -4,17 +4,59 @@
  */
 package br.com.infox.screens;
 
+import java.sql.*;
+import br.com.infox.dal.ModuloConexao;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author Felipe Pereira
  */
 public class ClientScreen extends javax.swing.JInternalFrame {
 
+    Connection conexao = null;
+    PreparedStatement pst = null;
+    ResultSet rs = null;
+
     /**
      * Creates new form ClientScreen
      */
     public ClientScreen() {
         initComponents();
+        conexao = ModuloConexao.conector();
+    }
+
+    // CREATE    
+    private void adicionar() {
+        String sql = "insert into tbclientes (nomecli, endcli, fonecli, emailcli) values(?,?,?,?)";
+        // try -> crtl + space  
+        try {
+            pst = conexao.prepareStatement(sql);
+            pst.setString(1, txtCliNome.getText());
+            pst.setString(2, txtCliEndereco.getText());
+            pst.setString(3, txtCliFone.getText());
+            pst.setString(4, txtCliEmail.getText());
+
+            // Validação dos campos obrigatórios
+            if ((txtCliNome.getText().isEmpty()) || (txtCliFone.getText().isEmpty())) {
+                JOptionPane.showMessageDialog(null, "Fill in all Required Fields!");
+            } else {
+                // A linha abaixo, atualiza a tabela usuários com os dados do formulário
+                // A estrutura é usada para confirmar a inserção dos dados na tabela
+                int adicionado = pst.executeUpdate();
+                // A linha abaixo, serve de apoio ao entendimento da lógica
+                System.out.println(adicionado);
+                if (adicionado > 0) {
+                    JOptionPane.showMessageDialog(null, "Client added!");
+                    txtCliNome.setText(null);
+                    txtCliEndereco.setText(null);
+                    txtCliFone.setText(null);
+                    txtCliEmail.setText(null);
+                }
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Already registered Client");
+        }
     }
 
     /**
@@ -234,17 +276,17 @@ public class ClientScreen extends javax.swing.JInternalFrame {
 
     private void btnCreateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCreateActionPerformed
         // Chamando o método adicionar
-        
+        adicionar();
     }//GEN-LAST:event_btnCreateActionPerformed
 
     private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
         // Chamando o método alterar
-        
+
     }//GEN-LAST:event_btnUpdateActionPerformed
 
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
         // Chamando o método remover
-       
+
     }//GEN-LAST:event_btnDeleteActionPerformed
 
     private void txtCliNomeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCliNomeActionPerformed
